@@ -12,4 +12,6 @@ add_executable(f1_strategy_sim src/main.cpp
         src/RaceState.hpp
         src/simulation.hpp
         src/simulation.cpp
+        src/Strategy.hpp
+        src/TyreCompound.hpp
 )

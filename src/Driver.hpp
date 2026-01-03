@@ -5,13 +5,11 @@
 #ifndef F1_STRATEGY_SIM_DRIVER_HPP
 #define F1_STRATEGY_SIM_DRIVER_HPP
 #include <string>
-
-#include "simulation.hpp"
-
+#include "Strategy.hpp"
 
 class Driver {
     public:
-        Driver(std::string driver_name, double base_pace_seconds, double consistency, const Strategy& strategy)
+        Driver(std::string driver_name, double base_pace_seconds, double consistency, Strategy strategy)
             :   driver_name_(std::move(driver_name)),
                 base_pace_seconds_(base_pace_seconds),
                 consistency_(consistency),

@@ -35,7 +35,7 @@ void advance_lap(RaceState& race) {
     race.set_current_lap(race.current_lap() + 1);
 }
 
-void simulate_race(RaceState& race, const Strategy& strategy, std::mt19937& rng) {
+void simulate_race(RaceState& race, std::mt19937& rng) {
     for (int i = 0; i < race.total_laps(); i++) {
         auto& cars = race.cars();
         for (auto& car : cars) {
@@ -44,18 +44,18 @@ void simulate_race(RaceState& race, const Strategy& strategy, std::mt19937& rng)
 
             auto current_strategy = car.driver()->strategy(); // Fetch current driver strategy
 
-            if (std::ranges::find(strategy.pit_laps_, current_car_lap) != strategy.pit_laps_.end()) {
+            if (std::ranges::find(current_strategy.pit_laps_, current_car_lap) != current_strategy.pit_laps_.end()) {
                 car.set_tyre_age_laps(0);
 
                 int stint_index = car.current_stint_index();
-                if (stint_index < static_cast<int>(strategy.compounds_.size())) {
-                    car.set_current_compound(strategy.compounds_[stint_index]);
+                if (stint_index < static_cast<int>(current_strategy.compounds_.size())) {
+                    car.set_current_compound(current_strategy.compounds_[stint_index]);
                     car.set_stint_index(stint_index + 1);
                 }
 
                 // Pit time variance (+/- 0.3s) with normal distribution
                 std::normal_distribution<double> pit_variance(0.0, 0.3);
-                double pit_time = strategy.pit_time_seconds_ + pit_variance(rng);
+                double pit_time = current_strategy.pit_time_seconds_ + pit_variance(rng);
 
                 car.set_total_lap_time(car.total_lap_time() + pit_time);
             }
@@ -90,7 +90,7 @@ ResultStats run_monte_carlo(const RaceState& base_race, const Strategy& strategy
 
     for (int i = 0; i < N; i++) {
         RaceState race = base_race; // Copy of reset state, ensures statistical independence
-        simulate_race(race, strategy, rng);
+        simulate_race(race, rng);
 
         const auto& cars = race.cars();
 
