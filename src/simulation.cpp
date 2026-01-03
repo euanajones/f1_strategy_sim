@@ -92,13 +92,13 @@ ResultStats run_monte_carlo(const RaceState& base_race, const Strategy& strategy
 
         const auto& cars = race.cars();
 
-        stats.wins_[cars[0].driver()->driver_name()]++;
+        stats.wins_[cars[0].driver()->driver_name()]++; // Determine P1 driver
 
         for (int pos = 0; pos < cars.size(); pos++) {
             stats.total_position_[cars[pos].driver()->driver_name()] += pos + 1;
         }
 
-        stats.runs_++;
+        stats.runs_++; // Increment stats struct run value
     }
 
     return stats;

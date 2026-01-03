@@ -11,12 +11,14 @@
 #include <vector>
 #include "RaceState.hpp"
 
+// Generic driver pit and tyre strategy
 struct Strategy {
     double pit_time_seconds_ = 2.5;
     std::vector<int> pit_laps_ = {10, 40};
     std::vector<TyreCompound> compounds_ = {TyreCompound::Soft, TyreCompound::Medium, TyreCompound::Hard};
 };
 
+// Struct for Monte Carlo Simulation results
 struct ResultStats {
     std::map<std::string, int> wins_;
     std::map<std::string, double> total_position_;
