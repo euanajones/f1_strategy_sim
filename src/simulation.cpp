@@ -42,6 +42,8 @@ void simulate_race(RaceState& race, const Strategy& strategy, std::mt19937& rng)
             double lap_time = calculate_lap_time(car, rng);
             int current_car_lap = car.current_lap();
 
+            auto current_strategy = car.driver()->strategy(); // Fetch current driver strategy
+
             if (std::ranges::find(strategy.pit_laps_, current_car_lap) != strategy.pit_laps_.end()) {
                 car.set_tyre_age_laps(0);
 
