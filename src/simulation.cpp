@@ -21,7 +21,7 @@ double calculate_lap_time(const CarState& car, std::mt19937& rng) {
     double degradation = degradation_rate(car.current_compound()) * car.tyre_age_laps();
 
     // Lap Time Variation (+/- 0.2s) with normal distribution
-    std::normal_distribution<double> lap_variance(0.0, 0.2);
+    std::normal_distribution<double> lap_variance(0.0, 0.3);
 
     return base_time + degradation + lap_variance(rng);
 }
@@ -53,7 +53,7 @@ void simulate_race(RaceState& race, const Strategy& strategy, std::mt19937& rng)
 
                 // Pit time variance (+/- 0.3s) with normal distribution
                 std::normal_distribution<double> pit_variance(0.0, 0.3);
-                double pit_time = strategy.pit_time_seconds + pit_variance(rng);
+                double pit_time = strategy.pit_time_seconds_ + pit_variance(rng);
 
                 car.set_total_lap_time(car.total_lap_time() + pit_time);
             }
@@ -79,4 +79,27 @@ void simulate_race(RaceState& race, const Strategy& strategy, std::mt19937& rng)
                   << " - " << car.total_lap_time() << "s\n";
         ++position;
     }
+}
+
+ResultStats run_monte_carlo(const RaceState& base_race, const Strategy& strategy, int N) {
+    ResultStats stats;
+
+    std::mt19937 rng(static_cast<unsigned>(std::time(nullptr)));
+
+    for (int i = 0; i < N; i++) {
+        RaceState race = base_race; // Copy of reset state, ensures statistical independence
+        simulate_race(race, strategy, rng);
+
+        const auto& cars = race.cars();
+
+        stats.wins_[cars[0].driver()->driver_name()]++;
+
+        for (int pos = 0; pos < cars.size(); pos++) {
+            stats.total_position_[cars[pos].driver()->driver_name()] += pos + 1;
+        }
+
+        stats.runs_++;
+    }
+
+    return stats;
 }

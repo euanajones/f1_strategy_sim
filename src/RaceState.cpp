@@ -13,7 +13,7 @@ RaceState RaceState::make_demo_race() {
     RaceState race(58);
 
     race.drivers_.emplace_back("Norris", 90.0, 0.25);
-    race.drivers_.emplace_back("Alonso", 110.0, 0.19);
+    race.drivers_.emplace_back("Alonso", 110.0, 0.34);
     race.drivers_.emplace_back("Leclerc", 98.0, 0.23);
     race.drivers_.emplace_back("Sainz", 87.0, 0.22);
 
