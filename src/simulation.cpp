@@ -8,11 +8,22 @@
 #include <algorithm>
 #include <iostream>
 #include <ostream>
+#include <random>
 
 double calculate_lap_time(const CarState& car) {
     double base_time = car.driver()->base_pace();
     double degradation = degradation_rate(car.current_compound()) * car.tyre_age_laps();
     return base_time + degradation;
+}
+
+double calculate_lap_time(const CarState& car, std::mt19937& rng) {
+    double base_time = car.driver()->base_pace();
+    double degradation = degradation_rate(car.current_compound()) * car.tyre_age_laps();
+
+    // Lap Time Variation (+/- 0.2s) with normal distribution
+    std::normal_distribution<double> lap_variance(0.0, 0.2);
+
+    return base_time + degradation + lap_variance(rng);
 }
 
 void advance_lap(RaceState& race) {
@@ -24,7 +35,7 @@ void advance_lap(RaceState& race) {
     race.set_current_lap(race.current_lap() + 1);
 }
 
-void simulate_race(RaceState& race, const Strategy& strategy) {
+void simulate_race(RaceState& race, const Strategy& strategy, std::mt19937& rng) {
     for (int i = 0; i < race.total_laps(); i++) {
         auto& cars = race.cars();
         for (auto& car : cars) {
@@ -40,7 +51,11 @@ void simulate_race(RaceState& race, const Strategy& strategy) {
                     car.set_stint_index(stint_index + 1);
                 }
 
-                car.set_total_lap_time(car.total_lap_time() + strategy.pit_time_seconds);
+                // Pit time variance (+/- 0.3s) with normal distribution
+                std::normal_distribution<double> pit_variance(0.0, 0.3);
+                double pit_time = strategy.pit_time_seconds + pit_variance(rng);
+
+                car.set_total_lap_time(car.total_lap_time() + pit_time);
             }
 
 

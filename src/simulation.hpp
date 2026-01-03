@@ -4,11 +4,13 @@
 
 #ifndef F1_STRATEGY_SIM_SIMULATION_HPP
 #define F1_STRATEGY_SIM_SIMULATION_HPP
+#include <random>
+
 #include "CarState.hpp"
 #include <vector>
 #include "RaceState.hpp"
 
-double calculate_lap_time(const CarState& car);
+double calculate_lap_time(const CarState& car, std::mt19937& rng);
 
 struct Strategy {
     double pit_time_seconds = 2.5;
@@ -18,6 +20,6 @@ struct Strategy {
 
 void advance_lap(RaceState& race);
 
-void simulate_race(RaceState& race, const Strategy& strategy);
+void simulate_race(RaceState& race, const Strategy& strategy, std::mt19937& rng);
 
 #endif //F1_STRATEGY_SIM_SIMULATION_HPP
