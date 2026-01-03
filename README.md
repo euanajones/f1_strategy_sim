@@ -12,11 +12,11 @@ It is not a realistic telemetry or physics based model, it is a structure projec
 - **CarState**: driver reference, tracks mutable car state (lap, tyre compound, tyre age, total time, etc).
 - **RaceState**: owns drivers and cars, and race wide metrics (current lap, total laps, etc).
 - **Strategy**: pit-stop laps, stint length, and tyre compounds.
-- **Simulation**: functions to advance lap, simulate full race, and eventually run Monte Carlo batches.
+- **Simulation**: functions to advance lap, simulate full race, and run Monte Carlo batches.
 Physics and strategy have been simplified to core components to maintain focus on C++ structure, code quality and OOP paradigm.
 ## Planned Learning Roadmap
 1. Core model and deterministic race ✅
 2. Introduce strategy handling, tyre compound changes and basic pit-stop logic ✅
-3. Add randomness and Monte Carlo to estimate win probabilities
+3. Add randomness and Monte Carlo to estimate win probabilities ✅
 4. Compare different strategies
 5. Optional: performance tuning, basic testing.
