@@ -13,28 +13,28 @@ RaceState::RaceState(int total_laps_)
 RaceState RaceState::make_demo_race() {
     RaceState race(58);
 
-    race.drivers_.emplace_back("Norris", 92.0, 0.25,
-        Strategy{
-            2.0,
-            {15, 35},
-            {TyreCompound::Medium, TyreCompound::Soft, TyreCompound::Medium}
-        });
-    race.drivers_.emplace_back("Alonso", 100.0, 0.34,
+    race.drivers_.emplace_back("Norris", 80.344, 0.82,
         Strategy{
             2.7,
-            {28},
-            {TyreCompound::Medium, TyreCompound::Soft}
+            {15, 35},
+            {TyreCompound::Medium, TyreCompound::Soft, TyreCompound::Soft}
         });
-    race.drivers_.emplace_back("Leclerc", 97.0, 0.23,
+    race.drivers_.emplace_back("Alonso", 81.744, 0.74,
         Strategy{
-            2.4,
+            2.9,
+            {28, 45},
+            {TyreCompound::Medium, TyreCompound::Soft, TyreCompound::Medium}
+        });
+    race.drivers_.emplace_back("Leclerc", 81.041, 0.72,
+        Strategy{
+            2.5,
             {20, 30},
             {TyreCompound::Hard, TyreCompound::Soft, TyreCompound::Medium}
         });
-    race.drivers_.emplace_back("Sainz", 90.0, 0.22,
+    race.drivers_.emplace_back("Sainz", 81.031, 0.87,
         Strategy{
-            2.4,
-            {20, 30},
+            2.5,
+            {20, 45},
             {TyreCompound::Hard, TyreCompound::Soft, TyreCompound::Medium}
         });
 

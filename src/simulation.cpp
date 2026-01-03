@@ -19,15 +19,16 @@ double calculate_lap_time(const CarState& car) {
 double calculate_lap_time(const CarState& car, std::mt19937& rng) {
     double base_time = car.driver()->base_pace();
     double degradation = degradation_rate(car.current_compound()) * car.tyre_age_laps();
+    double driver_consistency = car.driver()->consistency();
 
-    // Lap Time Variation (+/- 0.2s) with normal distribution
-    std::normal_distribution<double> lap_variance(0.0, 0.3);
+    // Lap Time Variation scaled to consistency with normal distribution
+    std::normal_distribution<double> lap_variance(0.0, 1-driver_consistency);
 
     return base_time + degradation + lap_variance(rng);
 }
 
 void advance_lap(RaceState& race) {
-    for (std::vector<CarState> cars = race.cars(); CarState& car : cars) {
+    for (std::vector<CarState>& cars = race.cars(); CarState& car : cars) {
         car.set_tyre_age_laps(car.tyre_age_laps() + 1);
 
         car.set_current_lap(car.current_lap() + 1);
@@ -53,15 +54,15 @@ void simulate_race(RaceState& race, std::mt19937& rng) {
                     car.set_stint_index(stint_index + 1);
                 }
 
-                // Pit time variance (+/- 0.3s) with normal distribution
-                std::normal_distribution<double> pit_variance(0.0, 0.3);
+                // Pit time variance, 68% of pits will be +/- 1.0 second
+                std::normal_distribution<double> pit_variance(0.0, 1.0);
                 double pit_time = current_strategy.pit_time_seconds_ + pit_variance(rng);
 
-                std::cout << "!!! Driver Pitted - Pit Time: " << pit_time << " - Lap Time + Pit: " << lap_time + pit_time << " !!! \n";
+                // std::cout << "!!! Driver (" << car.driver()->driver_name() <<") Pitted - Pit Time: " << pit_time << " - Lap Time + Pit: " << lap_time + pit_time << " !!! \n";
                 car.set_total_lap_time(car.total_lap_time() + pit_time);
             }
 
-            std::cout << car.driver()->driver_name() << " lap time: " << lap_time << "\n";
+            // std::cout << car.driver()->driver_name() << " lap time: " << lap_time << "\n";
             car.set_total_lap_time(car.total_lap_time() + lap_time);
         }
         advance_lap(race);
