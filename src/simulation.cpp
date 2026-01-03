@@ -39,7 +39,7 @@ void simulate_race(RaceState& race, const Strategy& strategy, std::mt19937& rng)
     for (int i = 0; i < race.total_laps(); i++) {
         auto& cars = race.cars();
         for (auto& car : cars) {
-            double lap_time = calculate_lap_time(car);
+            double lap_time = calculate_lap_time(car, rng);
             int current_car_lap = car.current_lap();
 
             if (std::ranges::find(strategy.pit_laps_, current_car_lap) != strategy.pit_laps_.end()) {
