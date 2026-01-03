@@ -57,10 +57,11 @@ void simulate_race(RaceState& race, std::mt19937& rng) {
                 std::normal_distribution<double> pit_variance(0.0, 0.3);
                 double pit_time = current_strategy.pit_time_seconds_ + pit_variance(rng);
 
+                std::cout << "!!! Driver Pitted - Pit Time: " << pit_time << " - Lap Time + Pit: " << lap_time + pit_time << " !!! \n";
                 car.set_total_lap_time(car.total_lap_time() + pit_time);
             }
 
-
+            std::cout << car.driver()->driver_name() << " lap time: " << lap_time << "\n";
             car.set_total_lap_time(car.total_lap_time() + lap_time);
         }
         advance_lap(race);
@@ -89,6 +90,7 @@ ResultStats run_monte_carlo(const RaceState& base_race, const Strategy& strategy
     std::mt19937 rng(static_cast<unsigned>(std::time(nullptr)));
 
     for (int i = 0; i < N; i++) {
+        std::cout << "=== SIMULATION " << i + 1 << " ===" << std::endl;
         RaceState race = base_race; // Copy of reset state, ensures statistical independence
         simulate_race(race, rng);
 
