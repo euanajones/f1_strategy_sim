@@ -18,5 +18,10 @@ Physics and strategy have been simplified to core components to maintain focus o
 1. Core model and deterministic race ✅
 2. Introduce strategy handling, tyre compound changes and basic pit-stop logic ✅
 3. Add randomness and Monte Carlo to estimate win probabilities ✅
-4. Compare different strategies
+4. Compare different strategies ✅
 5. Optional: performance tuning, basic testing.
+## Personal Outcomes
+- Worked with C++ reference and pointers, bringing practical application to previously theoretical concepts.
+- Built a greater understanding of memory management within C++, something new to me coming from higher level languages with automatic garbage collection.
+- Explored and implemented a basic Monte Carlo Simulation, broadening my knowledge of computational statistics.
+- Good introduction to C++ as a language, learning about its OOP system using .hpp and .cpp files, and its memory management logic.
