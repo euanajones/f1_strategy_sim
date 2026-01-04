@@ -30,7 +30,6 @@ class RaceState {
         int current_lap_;
         int total_laps_;
         bool safety_car_active_;
-        // double safety_car_gain_;
 };
 
 

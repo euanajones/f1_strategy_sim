@@ -5,14 +5,16 @@
 #include "RaceState.hpp"
 #include "simulation.hpp"
 
+// Initialise a base race state
 RaceState::RaceState(int total_laps_)
     : current_lap_(0),
       total_laps_(total_laps_),
       safety_car_active_(false) {}
 
 RaceState RaceState::make_demo_race() {
-    RaceState race(58);
+    RaceState race(58); // Initialise race with 58 laps
 
+    // Create Driver objects in RaceState
     race.drivers_.emplace_back("Norris", 80.344, 0.82,
         Strategy{
             2.7,
@@ -38,6 +40,7 @@ RaceState RaceState::make_demo_race() {
             {TyreCompound::Hard, TyreCompound::Soft, TyreCompound::Medium}
         });
 
+    // Create CarState objects in RaceState
     race.cars_.emplace_back(
         "🟠 ML25",
         &race.drivers_[0],
